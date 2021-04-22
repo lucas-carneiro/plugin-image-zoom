@@ -7,9 +7,7 @@
 
 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import siteConfig from '@generated/docusaurus.config';
-import mediumZoom from 'medium-zoom'
-
-const { themeConfig } = siteConfig;
+import mediumZoom from 'medium-zoom';
 
 export default (() => {
 
@@ -17,10 +15,10 @@ export default (() => {
     return null;
   }
 
-  const selector = (themeConfig&&themeConfig.zoomSelector) || '.markdown img';
+  const {selector = '.markdown img', options = null} = siteConfig.themeConfig.zoomConfig || {};
 
   setTimeout(() => {
-    mediumZoom(selector);
+    mediumZoom(selector, options);
   }, 1000);
 
 
@@ -32,7 +30,7 @@ export default (() => {
       }
 
       setTimeout(() => {
-        mediumZoom(selector);
+        mediumZoom(selector, options);
       }, 1000);
 
     },
