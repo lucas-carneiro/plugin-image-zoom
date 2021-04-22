@@ -17,22 +17,33 @@ export default (() => {
 
   const {selector = '.markdown img', options = null} = siteConfig.themeConfig.zoomConfig || {};
 
-  setTimeout(() => {
-    mediumZoom(selector, options);
-  }, 1000);
-
+  setZoom(selector, options);
 
   return {
     onRouteUpdate({ location }) {
 
-      if( location && location.hash && location.hash.length ) {
+      if(location && location.hash && location.hash.length) {
         return;
       }
 
-      setTimeout(() => {
-        mediumZoom(selector, options);
-      }, 1000);
-
+      setZoom(selector, options);
     },
   };
 })();
+
+function setZoom(selector, options) {
+  // We need to delay it because onRouteUpdate event fires before the content of the new page is rendered.
+  // For more information, read issues #3793 and #3399:
+
+  // https://github.com/facebook/docusaurus/issues/3793#issuecomment-732237665
+  // https://github.com/facebook/docusaurus/issues/3399
+
+  // When #3399 gets closed, we will finally have a better option than this hack below.
+
+  setTimeout(() => {
+    if (options)
+      mediumZoom(selector, options);
+    else
+      mediumZoom(selector);
+  }, 1000);
+}
