@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 import siteConfig from '@generated/docusaurus.config';
 import mediumZoom from 'medium-zoom'
 
 const { themeConfig } = siteConfig;
 
-export default (function () {
+export default (() => {
 
-  if ( typeof window === 'undefined' ) {
+  if (!ExecutionEnvironment.canUseDOM) {
     return null;
   }
 
